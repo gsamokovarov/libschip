@@ -1,0 +1,6 @@
+#ifndef _SCHIP_CONFIG_H
+#define _SCHIP_CONFIG_H
+
+#define SCHIP_DEBUG 0
+
+#endif
