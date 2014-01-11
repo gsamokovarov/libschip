@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -12,10 +13,10 @@ schip_timer_t * schip_timer_new(void) {
 
   if (self) {
     self->value  = 0;
-    self->active = 1;
-    self->done   = 0;
+    self->active = true;
+    self->done   = false;
 
-    pthread_create(&self->thread, 0, (void *) schip_timer_loop, self);
+    pthread_create(&self->thread, NULL, (void *) schip_timer_loop, self);
   }
 
   return self;
@@ -30,12 +31,12 @@ void * schip_timer_loop(schip_timer_t * self) {
     if (self->value) self->value--;
     usleep(16667);
   }
-  self->done = 1;
-  return 0;
+  self->done = true;
+  return NULL;
 }
 
 void schip_timer_free(schip_timer_t * self) {
-  self->active = 0;
+  self->active = false;
   while (!self->done);
   pthread_detach(self->thread);
   free(self);
@@ -58,7 +59,7 @@ schip_t * schip_new(void) {
     memset(self->stack, 0, sizeof(self->stack));
     memset(self->keys, 0, sizeof(self->keys));
 
-    srand(time(0));
+    srand(time(NULL));
   }
 
   return self;
