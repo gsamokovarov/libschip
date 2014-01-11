@@ -17,6 +17,12 @@
 #define ST(schip) schip->sound_timer->value
 #define SP(schip) schip->stack_pointer
 
+#define SCHIP_MEMORY_IN_BYTES 4096
+#define SCHIP_SCREEN_SIZE 64 * 32
+#define SCHIP_STACK_LEVELS 16
+#define SCHIP_REGISTERS 16
+#define SCHIP_KEYS 16
+
 typedef struct schip_timer {
   uint8_t   value;
   int       active;
@@ -33,14 +39,14 @@ typedef struct schip {
   schip_timer_t * delay_timer;
   schip_timer_t * sound_timer;
   uint16_t opcode;
-  uint8_t  memory[4096];
-  uint8_t  registers[16];
+  uint8_t  memory[SCHIP_MEMORY_IN_BYTES];
+  uint8_t  registers[SCHIP_REGISTERS];
   uint16_t index_register;
   uint16_t program_counter;
-  uint8_t  screen[64 * 32];
-  uint16_t stack[16];
+  uint8_t  screen[SCHIP_SCREEN_SIZE];
+  uint16_t stack[SCHIP_STACK_LEVELS];
   uint16_t stack_pointer;
-  uint8_t  keys[16];
+  uint8_t  keys[SCHIP_KEYS];
 } schip_t;
 
 static const uint8_t schip_hex_font[] = {
